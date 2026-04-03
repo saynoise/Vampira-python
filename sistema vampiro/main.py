@@ -11,4 +11,5 @@ while True:
     continuar = sistema.sistema_escolha('Escolha sua opção: ')
 
     if continuar is False:
+        print('Até logo!')
         break

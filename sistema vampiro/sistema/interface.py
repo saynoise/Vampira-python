@@ -78,9 +78,9 @@ def sistema_escolha(txt):
     while True:
         escolha = leiaint(txt)
         if escolha not in lista_escolhas:
-            print('Digite uma opção válida')
             if escolha == 5:
                 return False
+            print('Digite uma opção válida')
         else:
             break
     lista_escolhas[escolha]()
