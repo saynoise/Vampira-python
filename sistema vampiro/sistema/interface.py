@@ -53,7 +53,8 @@ def checar_id(txt):
 
 def cad_per():
     personagem_dict = {}
-    requerimentos = ['nome', 'player', 'campanha', 'natureza', 'demeanor', 'clan', 'geracao']
+    requerimentos = ['nome', 'player', 'campanha', 'natureza', 
+                     'demeanor', 'clan', 'geracao']
     for req in requerimentos:
         valor = lerstr(f'Digite o(a) {req} do personagem: ')
         personagem_dict[req] = valor
