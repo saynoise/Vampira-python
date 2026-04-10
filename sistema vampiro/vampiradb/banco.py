@@ -1,4 +1,5 @@
 import sqlite3
+from rich import print
 
 
 
@@ -27,10 +28,11 @@ def mostra_personagensdb():
     cursor.execute('''SELECT id, name, player, chronicle, nature, 
                              demeanor, clan, generation FROM personagens''')
     personagens = cursor.fetchall()
-    for personagem in personagens:
-        id, name, player, chronicle, nature, demeanor, clan, generation = personagem
-        print(f'''ID: {id} - nome: {name} | Jogador: {player} | Campanha: {chronicle}
-Natureza: {nature} | Demeanor: {demeanor} | Clan: {clan} | Generation {generation}''')
+    return personagens
+#     for personagem in personagens:
+#         id, name, player, chronicle, nature, demeanor, clan, generation = personagem
+#         print(f'''ID: {id} - nome: {name} | Jogador: {player} | Campanha: {chronicle}
+# Natureza: {nature} | Demeanor: {demeanor} | Clan: {clan} | Generation {generation}''')
 
 def cadastrar(cad_dict):
 

@@ -1,4 +1,7 @@
 import vampiradb.banco as db
+from rich import print
+from rich.panel import Panel
+from rich.table import Table
 
 def leiaint(txt):
     while True:
@@ -6,9 +9,9 @@ def leiaint(txt):
             resultado = int(input(txt))
             return resultado
         except ValueError:
-            print('ERROR! DIGITE UM VALOR INTEIRO VÁLIDO!')
+            print('[red]ERROR! DIGITE UM VALOR INTEIRO VÁLIDO![/]')
         except KeyboardInterrupt:
-            print('ERROR! USUARIO NÃO DIGITOU NADA!')
+            print('[red]ERROR! USUARIO NÃO DIGITOU NADA![/]')
 
 def leiafloat(txt):
     while True:
@@ -16,9 +19,9 @@ def leiafloat(txt):
             resultado = float(input(txt).replace(',','.'))
             return resultado
         except ValueError:
-            print('ERROR! DIGITE UM NUMERO REAL VÁLIDO!')
+            print('[red]ERROR! DIGITE UM NUMERO REAL VÁLIDO![/]')
         except KeyboardInterrupt:
-            print('ERROR! USUARIO NÃO DIGITOU NADA!')
+            print('[red]ERROR! USUARIO NÃO DIGITOU NADA![/]')
 
 def linha():
     print('-' * 42)
@@ -39,7 +42,7 @@ def lerstr(txt):
         try:
             return resultado
         except KeyboardInterrupt:
-            print('ERRO! USUARIO NAO DIGITOU NADA!')
+            print('[red]ERRO! USUARIO NAO DIGITOU NADA![/]')
 
 def checar_id(txt):
     listaid = set(db.id_check())
@@ -47,7 +50,7 @@ def checar_id(txt):
     while True:
         escolha = leiaint(f'{txt}')
         if escolha not in listaid:
-            print('ID INVALIDA, DIGITE UMA ID QUE ESTEJA NA LISTA!')
+            print('[red]ID INVALIDA, DIGITE UMA ID QUE ESTEJA NA LISTA![/]')
         else:
             return escolha
 
@@ -60,9 +63,19 @@ def cad_per():
         personagem_dict[req] = valor
     db.cadastrar(personagem_dict)
 
+def tabela(dados):
+    tabela = Table(title='LISTA DE PERSONAGENS')
+    requerimentos = ['id','nome', 'player', 'campanha', 'natureza', 
+                     'demeanor', 'clan', 'geracao']
+    for a in requerimentos:
+        tabela.add_column(f'[yellow]{a}[/]')
+    for a in dados:
+        tabela.add_row(*[str(item) for item in a])
+    return print(tabela)
+    
 def mostrar_personagens():
     linha()
-    db.mostra_personagensdb()
+    tabela(db.mostra_personagensdb())
     linha()
 
 def excluir_personagem():
@@ -111,4 +124,3 @@ def alterar_personagem():
     linha()
     alt = str(input('Digite a alteração: '))
     db.alterardb(escolhaid, lista_escolhas[escolha], alt)
-
