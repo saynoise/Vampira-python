@@ -1,5 +1,6 @@
 import sistema.interface as sistema
 import vampiradb.banco as db
+from rich import print
 
 db.iniciardb()
 while True:
@@ -11,5 +12,5 @@ while True:
     continuar = sistema.sistema_escolha('Escolha sua opção: ')
 
     if continuar is False:
-        print('Até logo!')
+        print('[magenta]Até logo![/]')
         break
