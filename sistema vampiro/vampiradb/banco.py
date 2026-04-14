@@ -51,9 +51,7 @@ def id_check():
             cursor = conexao.cursor()
             cursor.execute('SELECT id FROM personagens')
             idgeral = cursor.fetchall()
-            ids = []
-            for a in idgeral:
-                ids.append(a[0])
+            ids = [a[0] for a in idgeral]
             return ids
     except sqlite3.Error as e:
         print(f'Erro ao checar ids: {e}')
