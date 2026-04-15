@@ -107,6 +107,11 @@ def id_check():
         print(f'Erro ao checar ids: {e}')
 
 def alterardb(id,campo, alt):
+    campos_validos = {'name', 'player', 'chronicle', 'nature', 'demeanor',
+                    'clan', 'generation'}
+    if campo not in campos_validos:
+        print(f'[red]campo inválido: {campo}[/]')
+        return
     try:
         with sqlite3.connect('sistemavampira.db') as conexao:
             cursor = conexao.cursor()
