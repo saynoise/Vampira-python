@@ -4,19 +4,69 @@ from rich import print
 
 
 def iniciardb():
+    try:
+        with sqlite3.connect('sistemavampira.db') as conexao:
+            cursor = conexao.cursor()
+            cursor.execute('PRAGMA foreign_keys = ON')
 
-    with sqlite3.connect('sistemavampira.db') as conexao:
-        cursor = conexao.cursor()
+            cursor.execute('''CREATE TABLE IF NOT EXISTS personagens (
+                        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                        name TEXT NOT NULL,
+                        player TEXT NOT NULL,
+                        chronicle TEXT NOT NULL,
+                        nature TEXT NOT NULL,
+                        demeanor TEXT NOT NULL,
+                        clan TEXT NOT NULL,
+                        generation TEXT NOT NULL)''')
 
-        cursor.execute('''CREATE TABLE IF NOT EXISTS personagens (
-                      id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        player TEXT NOT NULL,
-        chronicle TEXT NOT NULL,
-        nature TEXT NOT NULL,
-        demeanor TEXT NOT NULL,
-        clan TEXT NOT NULL,
-        generation TEXT NOT NULL)''')
+            cursor.execute('''CREATE TABLE IF NOT EXISTS atributos (
+                        personagem_id INTEGER PRIMARY KEY,
+                        strength INTEGER NOT NULL DEFAULT 0,
+                        dexterity INTEGER NOT NULL DEFAULT 0,
+                        stamina INTEGER NOT NULL DEFAULT 0,
+                        charisma INTEGER NOT NULL DEFAULT 0,
+                        manipulation INTEGER NOT NULL DEFAULT 0,
+                        appearance INTEGER NOT NULL DEFAULT 0,
+                        perception INTEGER NOT NULL DEFAULT 0,
+                        intelligence INTEGER NOT NULL DEFAULT 0,
+                        wits INTEGER NOT NULL DEFAULT 0,
+                        FOREIGN KEY (personagem_id) REFERENCES personagens(id) ON DELETE CASCADE)''')
+
+            cursor.execute('''CREATE TABLE IF NOT EXISTS abilities (
+                        personagem_id INTEGER PRIMARY KEY,
+                        alertness INTEGER NOT NULL DEFAULT 0,
+                        athletics INTEGER NOT NULL DEFAULT 0,
+                        awareness INTEGER NOT NULL DEFAULT 0,
+                        brawl INTEGER NOT NULL DEFAULT 0,
+                        empathy INTEGER NOT NULL DEFAULT 0,
+                        expression INTEGER NOT NULL DEFAULT 0,
+                        intimidation INTEGER NOT NULL DEFAULT 0,
+                        leadership INTEGER NOT NULL DEFAULT 0,
+                        legerdemain INTEGER NOT NULL DEFAULT 0,
+                        subterfuge INTEGER NOT NULL DEFAULT 0,
+                        animal_ken INTEGER NOT NULL DEFAULT 0,
+                        archery INTEGER NOT NULL DEFAULT 0,
+                        commerce INTEGER NOT NULL DEFAULT 0,
+                        crafts INTEGER NOT NULL DEFAULT 0,
+                        etiquette INTEGER NOT NULL DEFAULT 0,
+                        melee INTEGER NOT NULL DEFAULT 0,
+                        performance INTEGER NOT NULL DEFAULT 0,
+                        ride INTEGER NOT NULL DEFAULT 0,
+                        stealth INTEGER NOT NULL DEFAULT 0,
+                        survival INTEGER NOT NULL DEFAULT 0,
+                        academics INTEGER NOT NULL DEFAULT 0,
+                        enigmas INTEGER NOT NULL DEFAULT 0,
+                        hearth_wisdom INTEGER NOT NULL DEFAULT 0,
+                        investigation INTEGER NOT NULL DEFAULT 0,
+                        law INTEGER NOT NULL DEFAULT 0,
+                        medicine INTEGER NOT NULL DEFAULT 0,
+                        occultism INTEGER NOT NULL DEFAULT 0,
+                        politics INTEGER NOT NULL DEFAULT 0,
+                        seneschal INTEGER NOT NULL DEFAULT 0,
+                        theology INTEGER NOT NULL DEFAULT 0,
+                        FOREIGN KEY (personagem_id) REFERENCES personagens(id) ON DELETE CASCADE)''')
+    except sqlite3.Error as e:
+        print(f'Deu Erro {e}')
 
 
 def mostra_personagensdb():
