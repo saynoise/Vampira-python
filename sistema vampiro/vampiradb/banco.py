@@ -79,17 +79,19 @@ def mostra_personagensdb():
         return cursor.fetchall()
 
 def cadastrar(cad_dict):
-    # TEMPORARIO
-    adc = []
-    for item in cad_dict.values():
-        adc.append(item)
-    dados = tuple(adc)
+    dados = tuple(cad_dict.values())
 
     with sqlite3.connect('sistemavampira.db') as conexao:
         cursor = conexao.cursor()
+
         cursor.execute('''INSERT INTO personagens(name, player, chronicle, nature,
         demeanor, clan, generation) VALUES(?,?,?,?,?,?,?)''',dados)
 
+        personagem_id = cursor.lastrowid
+        cursor.execute('INSERTO INTO atributes (personagem_id) VALUES (?)', (personagem_id,))
+
+        cursor.execute('INSERT INTO abilities(personagem_id) VALUES (?)', (personagem_id,))
+        
 def excluir_personagemdb(id):
     with sqlite3.connect('sistemavampira.db') as conexao:
         cursor = conexao.cursor()
