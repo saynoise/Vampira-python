@@ -9,6 +9,7 @@ def iniciardb():
             cursor = conexao.cursor()
             cursor.execute('PRAGMA foreign_keys = ON')
 
+            # Cria tabela principal
             cursor.execute('''CREATE TABLE IF NOT EXISTS personagens (
                         id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                         name TEXT NOT NULL,
@@ -19,7 +20,8 @@ def iniciardb():
                         clan TEXT NOT NULL,
                         generation TEXT NOT NULL)''')
 
-            cursor.execute('''CREATE TABLE IF NOT EXISTS atributos (
+            # Cria tabela de atributos
+            cursor.execute('''CREATE TABLE IF NOT EXISTS attributes (
                         personagem_id INTEGER PRIMARY KEY,
                         strength INTEGER NOT NULL DEFAULT 0,
                         dexterity INTEGER NOT NULL DEFAULT 0,
@@ -32,6 +34,7 @@ def iniciardb():
                         wits INTEGER NOT NULL DEFAULT 0,
                         FOREIGN KEY (personagem_id) REFERENCES personagens(id) ON DELETE CASCADE)''')
 
+            # Cria tabela de habilidades
             cursor.execute('''CREATE TABLE IF NOT EXISTS abilities (
                         personagem_id INTEGER PRIMARY KEY,
                         alertness INTEGER NOT NULL DEFAULT 0,
@@ -65,6 +68,14 @@ def iniciardb():
                         seneschal INTEGER NOT NULL DEFAULT 0,
                         theology INTEGER NOT NULL DEFAULT 0,
                         FOREIGN KEY (personagem_id) REFERENCES personagens(id) ON DELETE CASCADE)''')
+            
+            # Cria tabela de vantagens/magiazinha etc
+            cursor.execute('''CREATE TABLE IF NOT EXISTS advantages (
+                           id INTEGER PRIMARY KEY AUTOINCREMENT,
+                           personagem_id INTEGER NOT NULL,
+                           name TEXT NOT NULL,
+                           value INTEGER NOT NULL DEFAULT 0,
+                           FOREIGN KEY (personagem_id) REFERENCES personagens(id) ON DELETE CASCADE)''')
     except sqlite3.Error as e:
         print(f'Deu Erro {e}')
 
@@ -73,6 +84,7 @@ def mostra_personagensdb():
 
     with sqlite3.connect('sistemavampira.db') as conexao:
         cursor = conexao.cursor()
+        cursor.execute('PRAGMA foreign_keys = ON')
 
         cursor.execute('''SELECT id, name, player, chronicle, nature, 
                              demeanor, clan, generation FROM personagens''')
@@ -83,24 +95,27 @@ def cadastrar(cad_dict):
 
     with sqlite3.connect('sistemavampira.db') as conexao:
         cursor = conexao.cursor()
+        cursor.execute('PRAGMA foreign_keys = ON')
 
         cursor.execute('''INSERT INTO personagens(name, player, chronicle, nature,
         demeanor, clan, generation) VALUES(?,?,?,?,?,?,?)''',dados)
 
         personagem_id = cursor.lastrowid
-        cursor.execute('INSERTO INTO atributes (personagem_id) VALUES (?)', (personagem_id,))
+        cursor.execute('INSERT INTO attributes (personagem_id) VALUES (?)', (personagem_id,))
 
         cursor.execute('INSERT INTO abilities(personagem_id) VALUES (?)', (personagem_id,))
         
 def excluir_personagemdb(id):
     with sqlite3.connect('sistemavampira.db') as conexao:
         cursor = conexao.cursor()
+        cursor.execute('PRAGMA foreign_keys = ON')
         cursor.execute('DELETE FROM personagens WHERE id = ?',(id,))
 
 def id_check():
     try:
         with sqlite3.connect('sistemavampira.db') as conexao:
             cursor = conexao.cursor()
+            cursor.execute('PRAGMA foreign_keys = ON')
             cursor.execute('SELECT id FROM personagens')
             idgeral = cursor.fetchall()
             ids = [a[0] for a in idgeral]
@@ -117,6 +132,7 @@ def alterardb(id,campo, alt):
     try:
         with sqlite3.connect('sistemavampira.db') as conexao:
             cursor = conexao.cursor()
+            cursor.execute('PRAGMA foreign_keys = ON')
             cursor.execute(f'UPDATE personagens SET {campo} = ? WHERE id = ?',(alt, id))
     except sqlite3.Error as e:
         print(f'Erro Ao alterar dados: {e}')
