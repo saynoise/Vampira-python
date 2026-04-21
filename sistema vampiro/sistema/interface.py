@@ -3,7 +3,7 @@ from rich import print
 from rich.panel import Panel
 from rich.table import Table
 
-def leiaint(txt):
+def leiaint(txt=''):
     while True:
         try:
             resultado = int(input(txt))
@@ -63,7 +63,7 @@ def cad_per():
         personagem_dict[req] = valor
     db.cadastrar(personagem_dict)
 
-def attributes():
+def attributes(id):
     escolhas_attributes = {
         1: 'strength',
         2: 'dexterity',
@@ -76,7 +76,15 @@ def attributes():
         9: 'wits'
     }
     tabela_attributes(escolhas_attributes)
-    escolha = leiaint('Qual atributo deseja alterar: ')
+    while True:
+        escolha = leiaint('Qual atributo deseja alterar: ')
+        if escolha not in escolhas_attributes:
+            print(f'[red]DIGITE UMA OPÇÃO VÁLIDA![/]')
+        else:
+            break
+    valor = leiaint(f'Qual o novo valor de {escolhas_attributes[escolha]}: ')
+    db.alterar_attributes(id, escolhas_attributes[escolha], valor)
+
 
 
 
@@ -93,7 +101,6 @@ def distribuir_pontos():
                  'seneschal', 'theology']
     
     escolha = leiaint('O que você deseja alterar? ')
-
 
 def tabela_attributes(dados):
     tb = Table(title=f'Lista Atributos')
@@ -140,9 +147,7 @@ def sistema_escolha(txt):
             break
     lista_escolhas[escolha]()
 
-def alterar_personagem():
-    escolhaid = checar_id('Digite o ID do personagem que deseja alterar: ')
-    linha()
+def header(escolhaid):
     lista_escolhas = {
         1: 'name',
         2: 'player',
@@ -152,7 +157,6 @@ def alterar_personagem():
         6: 'clan',
         7: 'generation',
     }
-    print('Escolha oq vc quer alterar')
     for key, value in lista_escolhas.items():
         print(f'{key} - {value}')
     linha()
@@ -165,3 +169,20 @@ def alterar_personagem():
     linha()
     alt = str(input('Digite a alteração: '))
     db.alterardb(escolhaid, lista_escolhas[escolha], alt)
+
+def alterar_personagem():
+    escolhaid = checar_id('Digite o ID do personagem que deseja alterar: ')
+    linha()
+    print('Escolha oq vc quer alterar')
+    print('''1 - Header
+2 - Atributos
+3 - Habilidades ''')
+    escolha_opc = leiaint()
+    if escolha_opc == 1:
+        header(escolhaid)
+    
+    elif escolha_opc == 2:
+        attributes(escolhaid)
+    
+    elif escolha_opc == 3:
+        print('to do')

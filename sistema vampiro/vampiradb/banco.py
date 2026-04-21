@@ -105,8 +105,20 @@ def cadastrar(cad_dict):
 
         cursor.execute('INSERT INTO abilities(personagem_id) VALUES (?)', (personagem_id,))
 
-def cadastrar_abilities(cad_dict):
-    pass
+def alterar_attributes(id, campo, alt):
+    campos_validos = {'strength','dexterity','stamina','charisma',
+                      'manipulation','appearance','perception','intelligence','wits'}
+    if campo not in campos_validos:
+        print('[red]CAMPO INVALIDO[/]')
+        return
+    try:
+        with sqlite3.connect('sistemavampira.db') as conexao:
+            cursor = conexao.cursor()
+            cursor.execute('PRAGMA foreign_keys = ON')
+
+            cursor.execute(f'UPDATE attributes SET {campo} = ? WHERE personagem_id = ?',(alt, id))
+    except:
+        pass
         
 def excluir_personagemdb(id):
     with sqlite3.connect('sistemavampira.db') as conexao:
