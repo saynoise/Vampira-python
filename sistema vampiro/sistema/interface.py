@@ -85,9 +85,6 @@ def attributes(id):
     valor = leiaint(f'Qual o novo valor de {escolhas_attributes[escolha]}: ')
     db.alterar_attributes(id, escolhas_attributes[escolha], valor)
 
-
-
-
 # to do
 def distribuir_pontos():
 
@@ -108,8 +105,7 @@ def tabela_attributes(dados):
     tb.add_column('[yellow]atributo[/]')
     for key, value in dados.items():
         tb.add_row(str(key), value)
-    print(tb)
-    
+    print(tb)    
 
 def tabela_personagens(dados):
     tb = Table(title='LISTA DE PERSONAGENS')
