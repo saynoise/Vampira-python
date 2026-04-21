@@ -37,10 +37,10 @@ def opcoes(opc):
     linha()
 
 def lerstr(txt):
+    while True:
         try:
-            while True:
-                resultado = str(input(f'{txt}'))
-                return resultado
+            resultado = str(input(f'{txt}'))
+            return resultado
         except KeyboardInterrupt:
             print('[red]ERRO! USUARIO NAO DIGITOU NADA![/]')
 
@@ -63,11 +63,48 @@ def cad_per():
         personagem_dict[req] = valor
     db.cadastrar(personagem_dict)
 
+def attributes():
+    escolhas_attributes = {
+        1: 'strength',
+        2: 'dexterity',
+        3: 'stamina',
+        4: 'charisma',
+        5: 'manipulation',
+        6: 'appearance',
+        7: 'perception',
+        8: 'intelligence',
+        9: 'wits'
+    }
+    tabela_attributes(escolhas_attributes)
+    escolha = leiaint('Qual atributo deseja alterar: ')
+
+
+
 # to do
 def distribuir_pontos():
-    pass
 
-def tabela(dados):
+    abilities = ['alertness', 'athletics', 'awareness', 'brawl',
+                 'empathy', 'expression', 'intimidation', 'leadership',
+                 'legerdemain', 'subterfuge', 'animal_ken', 'archery',
+                 'commerce', 'crafts', 'etiquette', 'melee',
+                 'performance', 'ride', 'stealth', 'survival',
+                 'academics', 'enigmas', 'hearth_wisdom', 'investigation',
+                 'law', 'medicine', 'occultism', 'politics',
+                 'seneschal', 'theology']
+    
+    escolha = leiaint('O que você deseja alterar? ')
+
+
+def tabela_attributes(dados):
+    tb = Table(title=f'Lista Atributos')
+    tb.add_column('[yellow]id[/]')
+    tb.add_column('[yellow]atributo[/]')
+    for key, value in dados.items():
+        tb.add_row(str(key), value)
+    print(tb)
+    
+
+def tabela_personagens(dados):
     tb = Table(title='LISTA DE PERSONAGENS')
     requerimentos = ['id','name', 'player', 'chronicle', 'nature', 
                      'demeanor', 'clan', 'generation']
@@ -75,11 +112,11 @@ def tabela(dados):
         tb.add_column(f'[yellow]{a}[/]')
     for a in dados:
         tb.add_row(*[str(item) for item in a])
-    return print(tb)
+    print(tb)
     
 def mostrar_personagens():
     linha()
-    tabela(db.mostra_personagensdb())
+    tabela_personagens(db.mostra_personagensdb())
     linha()
 
 def excluir_personagem():
