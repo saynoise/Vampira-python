@@ -117,9 +117,30 @@ def alterar_attributes(id, campo, alt):
             cursor.execute('PRAGMA foreign_keys = ON')
 
             cursor.execute(f'UPDATE attributes SET {campo} = ? WHERE personagem_id = ?',(alt, id))
-    except:
-        pass
-        
+    except sqlite3.Error as e:
+        print(f'[red]Erro ao atualizar attributes: {e}[/]')
+
+def alterar_abilities(id, campo, valor):
+    campos_validos = {'alertness', 'athletics', 'awareness', 'brawl',
+                 'empathy', 'expression', 'intimidation', 'leadership',
+                 'legerdemain', 'subterfuge', 'animal_ken', 'archery',
+                 'commerce', 'crafts', 'etiquette', 'melee',
+                 'performance', 'ride', 'stealth', 'survival',
+                 'academics', 'enigmas', 'hearth_wisdom', 'investigation',
+                 'law', 'medicine', 'occultism', 'politics',
+                 'seneschal', 'theology'}
+    if campo not in campos_validos:
+        print('[red]CAMPO INVÁLIDO![/]')
+        return
+    try:
+        with sqlite3.connect('sistemavampira.db') as conexao:
+            cursor = conexao.cursor()
+            cursor.execute(' PRAGMA foreign_keys = ON')
+            
+            cursor.execute(f'UPDATE abilities SET {campo} = ? WHERE personagem_id = ?',(valor, id))
+    except sqlite3.Error as e:
+        print(f'[red]Erro ao atualizar abilities: {e}[/]')
+
 def excluir_personagemdb(id):
     with sqlite3.connect('sistemavampira.db') as conexao:
         cursor = conexao.cursor()

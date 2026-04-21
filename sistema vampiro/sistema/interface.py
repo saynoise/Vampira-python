@@ -85,10 +85,9 @@ def attributes(id):
     valor = leiaint(f'Qual o novo valor de {escolhas_attributes[escolha]}: ')
     db.alterar_attributes(id, escolhas_attributes[escolha], valor)
 
-# to do
-def distribuir_pontos():
+def pontos_abilities(id):
 
-    abilities = ['alertness', 'athletics', 'awareness', 'brawl',
+    lista_abilities = ['alertness', 'athletics', 'awareness', 'brawl',
                  'empathy', 'expression', 'intimidation', 'leadership',
                  'legerdemain', 'subterfuge', 'animal_ken', 'archery',
                  'commerce', 'crafts', 'etiquette', 'melee',
@@ -97,7 +96,17 @@ def distribuir_pontos():
                  'law', 'medicine', 'occultism', 'politics',
                  'seneschal', 'theology']
     
-    escolha = leiaint('O que você deseja alterar? ')
+    for habilidade in lista_abilities:
+        while True:
+            try:
+                escolha = input(f'digite o valor de {habilidade}:')
+                if escolha == '':
+                    break
+                escolha = int(escolha)
+                db.alterar_abilities(id, habilidade, escolha)
+                break
+            except ValueError:
+                print('VALOR INVÁLIDO')
 
 def tabela_attributes(dados):
     tb = Table(title=f'Lista Atributos')
@@ -172,7 +181,8 @@ def alterar_personagem():
     print('Escolha oq vc quer alterar')
     print('''1 - Header
 2 - Atributos
-3 - Habilidades ''')
+3 - Habilidades
+4 - Vantagens ''')
     escolha_opc = leiaint()
     if escolha_opc == 1:
         header(escolhaid)
@@ -181,4 +191,7 @@ def alterar_personagem():
         attributes(escolhaid)
     
     elif escolha_opc == 3:
+        pontos_abilities(escolhaid)
+    
+    elif escolha_opc == 4:
         print('to do')
