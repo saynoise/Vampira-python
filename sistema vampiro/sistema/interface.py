@@ -37,10 +37,10 @@ def opcoes(opc):
     linha()
 
 def lerstr(txt):
-    while True:
-        resultado = str(input(f'{txt}'))
         try:
-            return resultado
+            while True:
+                resultado = str(input(f'{txt}'))
+                return resultado
         except KeyboardInterrupt:
             print('[red]ERRO! USUARIO NAO DIGITOU NADA![/]')
 
@@ -56,22 +56,26 @@ def checar_id(txt):
 
 def cad_per():
     personagem_dict = {}
-    requerimentos = ['nome', 'player', 'campanha', 'natureza', 
-                     'demeanor', 'clan', 'geracao']
+    requerimentos = ['name', 'player', 'chronicle', 'nature', 
+                     'demeanor', 'clan', 'generation']
     for req in requerimentos:
         valor = lerstr(f'Digite o(a) {req} do personagem: ')
         personagem_dict[req] = valor
     db.cadastrar(personagem_dict)
 
+# to do
+def distribuir_pontos():
+    pass
+
 def tabela(dados):
-    tabela = Table(title='LISTA DE PERSONAGENS')
-    requerimentos = ['id','nome', 'player', 'campanha', 'natureza', 
-                     'demeanor', 'clan', 'geracao']
+    tb = Table(title='LISTA DE PERSONAGENS')
+    requerimentos = ['id','name', 'player', 'chronicle', 'nature', 
+                     'demeanor', 'clan', 'generation']
     for a in requerimentos:
-        tabela.add_column(f'[yellow]{a}[/]')
+        tb.add_column(f'[yellow]{a}[/]')
     for a in dados:
-        tabela.add_row(*[str(item) for item in a])
-    return print(tabela)
+        tb.add_row(*[str(item) for item in a])
+    return print(tb)
     
 def mostrar_personagens():
     linha()

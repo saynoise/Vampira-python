@@ -104,6 +104,9 @@ def cadastrar(cad_dict):
         cursor.execute('INSERT INTO attributes (personagem_id) VALUES (?)', (personagem_id,))
 
         cursor.execute('INSERT INTO abilities(personagem_id) VALUES (?)', (personagem_id,))
+
+def cadastrar_abilities(cad_dict):
+    pass
         
 def excluir_personagemdb(id):
     with sqlite3.connect('sistemavampira.db') as conexao:
