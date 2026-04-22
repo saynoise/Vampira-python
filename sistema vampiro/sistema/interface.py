@@ -188,6 +188,7 @@ def alterar_personagem():
 2 - Atributos
 3 - Habilidades
 4 - Vantagens ''')
+    linha()
     escolha_opc = leiaint()
     while escolha_opc not in range(1,5):
         print('OPÇAO INVALIDA, ESCOLHA UM NUMERO DE 1 A 4.')
