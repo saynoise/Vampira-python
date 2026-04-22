@@ -202,7 +202,7 @@ def alterar_personagem():
         print('1 - Adicionar Vantagem\n2 - Alterar Vantagem')
         escolha_vantagem = leiaint('')
         if escolha_vantagem == 1:
-            add_advantages()
+            add_advantages(escolhaid)
         elif escolha_vantagem == 2:
             print('todo')
         else:
