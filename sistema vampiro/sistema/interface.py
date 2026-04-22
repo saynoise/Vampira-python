@@ -63,6 +63,11 @@ def cad_per():
         personagem_dict[req] = valor
     db.cadastrar(personagem_dict)
 
+def add_advantages(id):
+    nome_vantagem = lerstr('Digite o nome da vantagem: ')
+    nivel_vantagem = leiaint(f'Digite o nivel de {nome_vantagem}: ')
+    db.adicionar_advantages(nome_vantagem, nivel_vantagem, id)
+
 def attributes(id):
     escolhas_attributes = {
         1: 'strength',
@@ -194,4 +199,11 @@ def alterar_personagem():
         pontos_abilities(escolhaid)
     
     elif escolha_opc == 4:
-        print('to do')
+        print('1 - Adicionar Vantagem\n2 - Alterar Vantagem')
+        escolha_vantagem = leiaint('')
+        if escolha_vantagem == 1:
+            add_advantages()
+        elif escolha_vantagem == 2:
+            print('todo')
+        else:
+            print('ESCOLHA INVÁLIDA, ESCOLHA ENTRE 1 E 2.')
