@@ -13,7 +13,7 @@ def leiaint(txt=''):
         except KeyboardInterrupt:
             print('[red]ERROR! USUARIO NÃO DIGITOU NADA![/]')
 
-def leiafloat(txt):
+def leiafloat(txt=''):
     while True:
         try:
             resultado = float(input(txt).replace(',','.'))
@@ -111,7 +111,7 @@ def pontos_abilities(id):
                 db.alterar_abilities(id, habilidade, escolha)
                 break
             except ValueError:
-                print('VALOR INVÁLIDO')
+                print('[red]VALOR INVÁLIDO[/]')
 
 def tabela_attributes(dados):
     tb = Table(title=f'Lista Atributos')
@@ -189,6 +189,10 @@ def alterar_personagem():
 3 - Habilidades
 4 - Vantagens ''')
     escolha_opc = leiaint()
+    while escolha_opc not in range(1,5):
+        print('OPÇAO INVALIDA, ESCOLHA UM NUMERO DE 1 A 4.')
+        escolha_opc = leiaint()
+
     if escolha_opc == 1:
         header(escolhaid)
     
@@ -200,10 +204,13 @@ def alterar_personagem():
     
     elif escolha_opc == 4:
         print('1 - Adicionar Vantagem\n2 - Alterar Vantagem')
-        escolha_vantagem = leiaint('')
-        if escolha_vantagem == 1:
-            add_advantages(escolhaid)
-        elif escolha_vantagem == 2:
-            print('todo')
-        else:
-            print('ESCOLHA INVÁLIDA, ESCOLHA ENTRE 1 E 2.')
+        while True:
+            escolha_vantagem = leiaint()
+            if escolha_vantagem == 1:
+                add_advantages(escolhaid)
+                break
+            elif escolha_vantagem == 2:
+                print('todo')
+                break
+            else:
+                print('ESCOLHA INVÁLIDA, ESCOLHA ENTRE 1 E 2.')

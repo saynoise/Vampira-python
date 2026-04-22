@@ -135,7 +135,7 @@ def alterar_abilities(id, campo, valor):
     try:
         with sqlite3.connect('sistemavampira.db') as conexao:
             cursor = conexao.cursor()
-            cursor.execute(' PRAGMA foreign_keys = ON')
+            cursor.execute('PRAGMA foreign_keys = ON')
             
             cursor.execute(f'UPDATE abilities SET {campo} = ? WHERE personagem_id = ?',(valor, id))
     except sqlite3.Error as e:
