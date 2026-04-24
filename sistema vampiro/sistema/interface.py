@@ -101,7 +101,11 @@ def attributes(id):
     valor = leiaint(f'Qual o novo valor de {escolhas_attributes[escolha]}: ')
     db.alterar_attributes(id, escolhas_attributes[escolha], valor)
 
-def pontos_abilities(id):
+def alt_attributes(id):
+    dados = db.alterar_attributes(id)
+    tabela_attributes(dados)
+
+def criar_abilities(id):
 
     lista_abilities = ['alertness', 'athletics', 'awareness', 'brawl',
                  'empathy', 'expression', 'intimidation', 'leadership',
@@ -124,6 +128,24 @@ def pontos_abilities(id):
             except ValueError:
                 print('[red]VALOR INVÁLIDO[/]')
 
+def tabela_abilities(id):
+    dados = db.mostra_abilities(id)
+    print(dados[0])
+    lista_abilities = ['alertness', 'athletics', 'awareness', 'brawl',
+                 'empathy', 'expression', 'intimidation', 'leadership',
+                 'legerdemain', 'subterfuge', 'animal_ken', 'archery',
+                 'commerce', 'crafts', 'etiquette', 'melee',
+                 'performance', 'ride', 'stealth', 'survival',
+                 'academics', 'enigmas', 'hearth_wisdom', 'investigation',
+                 'law', 'medicine', 'occultism', 'politics',
+                 'seneschal', 'theology']
+    tb = Table(title='Lista Abilities')
+    tb.add_column('Ability')
+    tb.add_column('Value')
+    for ability, valor in zip(lista_abilities, dados[0]):
+        tb.add_row(str(ability),str(valor))
+    print(tb)
+        
 def tabela_attributes(dados):
     tb = Table(title=f'Lista Atributos')
     tb.add_column('[yellow]ID[/]')
@@ -212,7 +234,7 @@ def alterar_personagem():
         attributes(escolhaid)
     
     elif escolha_opc == 3:
-        pontos_abilities(escolhaid)
+        tabela_abilities(escolhaid)
     
     elif escolha_opc == 4:
         print('1 - Adicionar Vantagem\n2 - Alterar Vantagem')
