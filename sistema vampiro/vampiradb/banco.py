@@ -105,6 +105,42 @@ def cadastrar(cad_dict):
 
         cursor.execute('INSERT INTO abilities(personagem_id) VALUES (?)', (personagem_id,))
 
+def mostra_attributes(id):
+
+    with sqlite3.connect('sistemavampira.db') as conexao:
+        cursor = conexao.cursor()
+        cursor.execute('PRAGMA foreign_keys = ON')
+
+        cursor.execute('''SELECT strength, dexterity, stamina, charisma,
+                       manipulation, appearance, perception, intelligence, 
+                       wits FROM attributes WHERE personagem_id = ?''',(id,))
+        return cursor.fetchall()
+    
+def mostra_abilities(id):
+
+    with sqlite3.connect('sistemavampira.db') as conexao:
+        cursor = conexao.cursor()
+        cursor.execute('PRAGMA foreign_keys = ON')
+
+        cursor.execute('''SELECT alertness, athletics, awareness, brawl,
+                       empathy, expression, intimidation, leadership,
+                       legerdemain, subterfuge, animal_ken, archery,
+                       commerce, crafts, etiquette, melee, performance, 
+                       ride, stealth, survival, academics, enigmas, 
+                       hearth_wisdom, investigation, law, medicine, 
+                       occultism, politics, seneschal, theology FROM abilities 
+                       WHERE personagem_id = ?''',(id,))
+        return cursor.fetchall()
+
+def mostra_advantages(id):
+
+    with sqlite3.connect('sistemavampira.db') as conexao:
+        cursor = conexao.cursor()
+        cursor.execute('PRAGMA foreign_keys = ON')
+
+        cursor.execute('''SELECT id, name, value FROM advantages WHERE personagem_id = ?''', (id,))
+        return cursor.fetchall()
+
 def alterar_attributes(id, campo, alt):
     campos_validos = {'strength','dexterity','stamina','charisma',
                       'manipulation','appearance','perception','intelligence','wits'}

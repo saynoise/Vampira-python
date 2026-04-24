@@ -63,6 +63,17 @@ def cad_per():
         personagem_dict[req] = valor
     db.cadastrar(personagem_dict)
 
+def alt_advantages(id):
+    pass
+
+def tabela_advantages(dados):
+    tb = Table(title=f'TABELA VANTAGENS')
+    tb.add_column('ID')
+    tb.add_column('Vantagem')
+    for key, value in dados.items():
+        tb.add_row(str(key), value)
+    print(tb)
+
 def add_advantages(id):
     nome_vantagem = lerstr('Digite o nome da vantagem: ')
     nivel_vantagem = leiaint(f'Digite o nivel de {nome_vantagem}: ')
@@ -115,8 +126,8 @@ def pontos_abilities(id):
 
 def tabela_attributes(dados):
     tb = Table(title=f'Lista Atributos')
-    tb.add_column('[yellow]id[/]')
-    tb.add_column('[yellow]atributo[/]')
+    tb.add_column('[yellow]ID[/]')
+    tb.add_column('[yellow]Atributo[/]')
     for key, value in dados.items():
         tb.add_row(str(key), value)
     print(tb)    
