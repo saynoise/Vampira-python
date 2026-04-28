@@ -3,6 +3,39 @@ from rich import print
 from rich.panel import Panel
 from rich.table import Table
 
+abilities_dict = {
+    1: 'alertness',
+    2: 'athletics',
+    3: 'awareness',
+    4: 'brawl',
+    5: 'empathy',
+    6: 'expression',
+    7: 'intimidation',
+    8: 'leadership',
+    9: 'legerdemain',
+    10: 'subterfuge',
+    11: 'animal_ken',
+    12: 'archery',
+    13: 'commerce',
+    14: 'crafts',
+    15: 'etiquette',
+    16: 'melee',
+    17: 'performance',
+    18: 'ride',
+    19: 'stealth',
+    20: 'survival',
+    21: 'academics',
+    22: 'enigmas',
+    23: 'hearth_wisdom',
+    24: 'investigation',
+    25: 'law',
+    26: 'medicine',
+    27: 'occultism',
+    28: 'politics',
+    29: 'seneschal',
+    30: 'theology'
+}
+
 def leiaint(txt=''):
     while True:
         try:
@@ -107,16 +140,7 @@ def alt_attributes(id):
 
 def criar_abilities(id):
 
-    lista_abilities = ['alertness', 'athletics', 'awareness', 'brawl',
-                 'empathy', 'expression', 'intimidation', 'leadership',
-                 'legerdemain', 'subterfuge', 'animal_ken', 'archery',
-                 'commerce', 'crafts', 'etiquette', 'melee',
-                 'performance', 'ride', 'stealth', 'survival',
-                 'academics', 'enigmas', 'hearth_wisdom', 'investigation',
-                 'law', 'medicine', 'occultism', 'politics',
-                 'seneschal', 'theology']
-    
-    for habilidade in lista_abilities:
+    for habilidade in abilities_dict.values():
         while True:
             try:
                 escolha = input(f'digite o valor de {habilidade}:')
@@ -130,20 +154,14 @@ def criar_abilities(id):
 
 def tabela_abilities(id):
     dados = db.mostra_abilities(id)
-    print(dados[0])
-    lista_abilities = ['alertness', 'athletics', 'awareness', 'brawl',
-                 'empathy', 'expression', 'intimidation', 'leadership',
-                 'legerdemain', 'subterfuge', 'animal_ken', 'archery',
-                 'commerce', 'crafts', 'etiquette', 'melee',
-                 'performance', 'ride', 'stealth', 'survival',
-                 'academics', 'enigmas', 'hearth_wisdom', 'investigation',
-                 'law', 'medicine', 'occultism', 'politics',
-                 'seneschal', 'theology']
+    count = 0
     tb = Table(title='Lista Abilities')
+    tb.add_column('ID')
     tb.add_column('Ability')
     tb.add_column('Value')
-    for ability, valor in zip(lista_abilities, dados[0]):
-        tb.add_row(str(ability),str(valor))
+    for ability, valor in zip(abilities_dict.values(), dados[0]):
+        count += 1
+        tb.add_row(str(count),str(ability),str(valor))
     print(tb)
         
 def tabela_attributes(dados):
@@ -234,7 +252,32 @@ def alterar_personagem():
         attributes(escolhaid)
     
     elif escolha_opc == 3:
-        tabela_abilities(escolhaid)
+        while True:
+            tabela_abilities(escolhaid)
+            id_abilities = leiaint('Digite o ID da habilidade que deseja alterar: ')
+            while id_abilities not in abilities_dict:
+                print(f'[red]Digite um id entre 1 e 30![/]')
+                id_abilities = leiaint('Digite o ID da habilidade que deseja alterar: ')
+
+            while True:
+                value_abilities = leiaint('Digite o novo valor da habilidade: ')
+                if value_abilities <= 6 and value_abilities >= 0:
+                    db.alterar_abilities(escolhaid, abilities_dict[id_abilities], value_abilities)
+                    break
+                else:
+                    print('[red] DIGITE UM VALOR ENTRE 0 E 6![/]')
+
+            print('Deseja Alterar mais alguma habilidade? [S/N]')
+            
+            loop_abilities = lerstr('').strip().upper()
+            while not loop_abilities or loop_abilities[0] not in 'SN':
+                print('Escolha entre Sim e Não!')
+                loop_abilities = lerstr('').strip().upper()
+
+            loop_abilities = loop_abilities[0]
+
+            if loop_abilities == 'N':
+                break
     
     elif escolha_opc == 4:
         print('1 - Adicionar Vantagem\n2 - Alterar Vantagem')
