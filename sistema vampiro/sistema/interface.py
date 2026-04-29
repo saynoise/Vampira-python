@@ -96,16 +96,45 @@ def cad_per():
         personagem_dict[req] = valor
     db.cadastrar(personagem_dict)
 
-def alt_advantages(id):
-    pass
+def alt_advantages(escolhaid):
+    while True:
+        id_advantage = leiaint('Digite o ID da Vantagem que deseja alterar: ')
 
-def tabela_advantages(dados):
-    tb = Table(title=f'TABELA VANTAGENS')
-    tb.add_column('ID')
-    tb.add_column('Vantagem')
-    for key, value in dados.items():
-        tb.add_row(str(key), value)
-    print(tb)
+        ids_validos = [row[0] for row in db.mostra_advantages(escolhaid)]
+
+        while id_advantage not in ids_validos:
+            print('[red]ID INVALIDA! DIGITE UMA ID QUE ESTEJA EM:[/]')
+            tabela_advantages(escolhaid)
+            id_advantage = leiaint('Digite o ID da Vantagem que deseja alterar: ')
+        print('O que deseja alterar? \n1 - Titulo\n2 - Valor')
+        escolha = leiaint()
+        while escolha not in (1,2):
+            print('[red]ESCOLHA INVALIDA![/]')
+            escolha = leiaint()
+
+        name = ''
+        value = None
+
+        if escolha == 1:
+            name = lerstr('Digite o novo nome: ')
+            while name == '':
+                print('[red]DIGITE UM NOME![/]')
+                name = lerstr('')
+        if escolha == 2:
+            value = leiaint('Digite o novo valor: ')
+        db.alterar_advantages(escolhaid, id_advantage, name, value)
+
+        print('Deseja Alterar mais alguma habilidade? [S/N]')
+        
+        loop_advantage = lerstr('').strip().upper()
+        while not loop_advantage or loop_advantage[0] not in 'SN':
+            print('Escolha entre Sim e Não!')
+            loop_advantage = lerstr('').strip().upper()
+
+        loop_advantage = loop_advantage[0]
+
+        if loop_advantage == 'N':
+            break
 
 def add_advantages(id):
     nome_vantagem = lerstr('Digite o nome da vantagem: ')
@@ -134,10 +163,6 @@ def attributes(id):
     valor = leiaint(f'Qual o novo valor de {escolhas_attributes[escolha]}: ')
     db.alterar_attributes(id, escolhas_attributes[escolha], valor)
 
-def alt_attributes(id):
-    dados = db.alterar_attributes(id)
-    tabela_attributes(dados)
-
 def criar_abilities(id):
 
     for habilidade in abilities_dict.values():
@@ -152,13 +177,15 @@ def criar_abilities(id):
             except ValueError:
                 print('[red]VALOR INVÁLIDO[/]')
 
-def tabela_advantages(id):
-    dados = db.mostra_advantages(id)
-    count = 0
+def tabela_advantages(escolhaid):
+    dados = db.mostra_advantages(escolhaid)
     tb = Table(title='Lista Advantages')
     tb.add_column('ID')
     tb.add_column('Advantage')
     tb.add_column('Value')
+    for id, advantage, value in dados:
+        tb.add_row(str(id), str(advantage), str(value))
+    print(tb)
 
 def tabela_abilities(id):
     dados = db.mostra_abilities(id)
@@ -291,6 +318,7 @@ def alterar_personagem():
         abilities(escolhaid)
     
     elif escolha_opc == 4:
+        tabela_advantages(escolhaid)
         print('1 - Adicionar Vantagem\n2 - Alterar Vantagem')
         while True:
             escolha_vantagem = leiaint()
@@ -298,7 +326,7 @@ def alterar_personagem():
                 add_advantages(escolhaid)
                 break
             elif escolha_vantagem == 2:
-                print('to do')
+                alt_advantages(escolhaid)
                 break
             else:
                 print('ESCOLHA INVÁLIDA, ESCOLHA ENTRE 1 E 2.')

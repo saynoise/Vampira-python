@@ -177,6 +177,27 @@ def alterar_abilities(id, campo, valor):
     except sqlite3.Error as e:
         print(f'[red]Erro ao atualizar abilities: {e}[/]')
 
+def alterar_advantages(idpersonagem, id, name = '', value = None):
+    try:
+        with sqlite3.connect('sistemavampira.db') as conexao:
+            cursor = conexao.cursor()
+            cursor.execute('PRAGMA foreign_keys = ON')
+
+            cursor.execute('SELECT name, value FROM advantages WHERE personagem_id = ? AND id = ?',(idpersonagem, id))
+            atual = cursor.fetchone()
+
+            final_name = name if name != '' else atual[0]
+            final_value = value if value != None else atual[1]
+
+            cursor.execute('''UPDATE advantages SET 
+                           name = ?, 
+                           value = ? 
+                           WHERE personagem_id = ? 
+                           AND id = ?''',(final_name, final_value, idpersonagem, id))
+    except sqlite3.Error as e:
+        print(f'[red]Erro ao alterar advantages: {e}[/]')
+
+
 def adicionar_advantages(nome, valor, id):
     try:
         with sqlite3.connect('sistemavampira.db') as conexao:
