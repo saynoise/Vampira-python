@@ -6,10 +6,10 @@ Aplicação em Python para gerenciar fichas de personagens do RPG **Vampiro: A M
 
 ## 📋 Funcionalidades atuais
 
-- Cadastrar personagens com informações básicas (nome, player, clã, crônica, etc.)
+- Cadastrar personagens com informações básicas (nome, player, clã, crônica, natureza, comportamento, geração)
 - Armazenar e editar atributos físicos, sociais e mentais de cada personagem
 - Armazenar e editar habilidades (abilities) de cada personagem
-- Gerenciar vantagens (disciplines, backgrounds, virtues, etc.)
+- Gerenciar vantagens (disciplines, backgrounds, virtues, etc.) — adicionar, alterar e excluir
 - Atualizar e deletar personagens
 - Banco de dados local com integridade referencial via chaves estrangeiras
 
@@ -25,6 +25,19 @@ personagens
 ```
 
 Todas as tabelas se relacionam com `personagens` via chave estrangeira com `ON DELETE CASCADE` — ao deletar um personagem, todos os dados relacionados são removidos automaticamente.
+
+---
+
+## 🗂️ Estrutura do projeto
+
+```
+Vampira-python/
+    ├── main.py
+    ├── sistema/
+    │   └── interface.py      # Interface do terminal (menus, tabelas, inputs)
+    └── vampiradb/
+        └── banco.py          # Lógica de banco de dados (CRUD com SQLite3)
+```
 
 ---
 
