@@ -152,6 +152,14 @@ def criar_abilities(id):
             except ValueError:
                 print('[red]VALOR INVÁLIDO[/]')
 
+def tabela_advantages(id):
+    dados = db.mostra_advantages(id)
+    count = 0
+    tb = Table(title='Lista Advantages')
+    tb.add_column('ID')
+    tb.add_column('Advantage')
+    tb.add_column('Value')
+
 def tabela_abilities(id):
     dados = db.mostra_abilities(id)
     count = 0
@@ -231,6 +239,34 @@ def header(escolhaid):
     alt = str(input('Digite a alteração: '))
     db.alterardb(escolhaid, lista_escolhas[escolha], alt)
 
+def abilities(id):
+    while True:
+        tabela_abilities(id)
+        id_abilities = leiaint('Digite o ID da habilidade que deseja alterar: ')
+        while id_abilities not in abilities_dict:
+            print(f'[red]Digite um id entre 1 e 30![/]')
+            id_abilities = leiaint('Digite o ID da habilidade que deseja alterar: ')
+
+        while True:
+            value_abilities = leiaint('Digite o novo valor da habilidade: ')
+            if value_abilities <= 6 and value_abilities >= 0:
+                db.alterar_abilities(id, abilities_dict[id_abilities], value_abilities)
+                break
+            else:
+                print('[red] DIGITE UM VALOR ENTRE 0 E 6![/]')
+
+        print('Deseja Alterar mais alguma habilidade? [S/N]')
+        
+        loop_abilities = lerstr('').strip().upper()
+        while not loop_abilities or loop_abilities[0] not in 'SN':
+            print('Escolha entre Sim e Não!')
+            loop_abilities = lerstr('').strip().upper()
+
+        loop_abilities = loop_abilities[0]
+
+        if loop_abilities == 'N':
+            break
+
 def alterar_personagem():
     escolhaid = checar_id('Digite o ID do personagem que deseja alterar: ')
     linha()
@@ -252,32 +288,7 @@ def alterar_personagem():
         attributes(escolhaid)
     
     elif escolha_opc == 3:
-        while True:
-            tabela_abilities(escolhaid)
-            id_abilities = leiaint('Digite o ID da habilidade que deseja alterar: ')
-            while id_abilities not in abilities_dict:
-                print(f'[red]Digite um id entre 1 e 30![/]')
-                id_abilities = leiaint('Digite o ID da habilidade que deseja alterar: ')
-
-            while True:
-                value_abilities = leiaint('Digite o novo valor da habilidade: ')
-                if value_abilities <= 6 and value_abilities >= 0:
-                    db.alterar_abilities(escolhaid, abilities_dict[id_abilities], value_abilities)
-                    break
-                else:
-                    print('[red] DIGITE UM VALOR ENTRE 0 E 6![/]')
-
-            print('Deseja Alterar mais alguma habilidade? [S/N]')
-            
-            loop_abilities = lerstr('').strip().upper()
-            while not loop_abilities or loop_abilities[0] not in 'SN':
-                print('Escolha entre Sim e Não!')
-                loop_abilities = lerstr('').strip().upper()
-
-            loop_abilities = loop_abilities[0]
-
-            if loop_abilities == 'N':
-                break
+        abilities(escolhaid)
     
     elif escolha_opc == 4:
         print('1 - Adicionar Vantagem\n2 - Alterar Vantagem')
@@ -287,7 +298,7 @@ def alterar_personagem():
                 add_advantages(escolhaid)
                 break
             elif escolha_vantagem == 2:
-                print('todo')
+                print('to do')
                 break
             else:
                 print('ESCOLHA INVÁLIDA, ESCOLHA ENTRE 1 E 2.')
