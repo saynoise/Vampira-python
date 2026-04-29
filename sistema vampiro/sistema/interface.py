@@ -294,6 +294,20 @@ def abilities(id):
         if loop_abilities == 'N':
             break
 
+def del_advantage(escolhaid):
+    tabela_advantages(escolhaid)
+
+    ids_validos = [row[0] for row in db.mostra_advantages(escolhaid)]
+
+    id_del = leiaint('Digite o id da vantagem que deseja excluir: ')
+    while id_del not in ids_validos:
+        print('[red]ID INVÁLIDA DIGITE UM ID QUE ESTEJA EM:[/]')
+        tabela_advantages(escolhaid)
+        id_del = leiaint('Digite o id da vantagem que deseja excluir: ')
+    
+    db.excluir_advantage(escolhaid, id_del)
+
+
 def alterar_personagem():
     escolhaid = checar_id('Digite o ID do personagem que deseja alterar: ')
     linha()
@@ -319,7 +333,7 @@ def alterar_personagem():
     
     elif escolha_opc == 4:
         tabela_advantages(escolhaid)
-        print('1 - Adicionar Vantagem\n2 - Alterar Vantagem')
+        print('1 - Adicionar Vantagem\n2 - Alterar Vantagem\n3 - Excluir Vantagem')
         while True:
             escolha_vantagem = leiaint()
             if escolha_vantagem == 1:
@@ -328,5 +342,7 @@ def alterar_personagem():
             elif escolha_vantagem == 2:
                 alt_advantages(escolhaid)
                 break
+            elif escolha_vantagem == 3:
+                del_advantage(escolhaid)
             else:
                 print('ESCOLHA INVÁLIDA, ESCOLHA ENTRE 1 E 2.')

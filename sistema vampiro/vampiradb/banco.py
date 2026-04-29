@@ -208,6 +208,16 @@ def adicionar_advantages(nome, valor, id):
     except sqlite3.Error as e:
         print(f'Erro ao adicionar vantagem: {e}')
 
+def excluir_advantage(idpersonagem, id):
+    try:
+        with sqlite3.connect('sistemavampira.db') as conexao:
+            cursor = conexao.cursor()
+            cursor.execute('PRAGMA foreign_keys = ON')
+
+            cursor.execute('DELETE FROM advantages WHERE personagem_id = ? AND id = ?', (idpersonagem, id))
+    except sqlite3.Error as e:
+        print(f'[red]ERRO AO EXCLUIR ADVANTAGE: {e}[/]')
+
 def excluir_personagemdb(id):
     with sqlite3.connect('sistemavampira.db') as conexao:
         cursor = conexao.cursor()
