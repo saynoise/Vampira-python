@@ -105,6 +105,8 @@ def cadastrar(cad_dict):
 
         cursor.execute('INSERT INTO abilities(personagem_id) VALUES (?)', (personagem_id,))
 
+        return personagem_id
+
 def mostra_attributes(id):
 
     with sqlite3.connect('sistemavampira.db') as conexao:

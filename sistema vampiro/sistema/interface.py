@@ -94,7 +94,9 @@ def cad_per():
     for req in requerimentos:
         valor = lerstr(f'Digite o(a) {req} do personagem: ')
         personagem_dict[req] = valor
-    db.cadastrar(personagem_dict)
+    cad = db.cadastrar(personagem_dict)
+
+    criar_abilities(cad)
 
 def alt_advantages(escolhaid):
     while True:
@@ -306,7 +308,6 @@ def del_advantage(escolhaid):
         id_del = leiaint('Digite o id da vantagem que deseja excluir: ')
     
     db.excluir_advantage(escolhaid, id_del)
-
 
 def alterar_personagem():
     escolhaid = checar_id('Digite o ID do personagem que deseja alterar: ')
