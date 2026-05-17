@@ -347,3 +347,37 @@ def alterar_personagem():
                 del_advantage(escolhaid)
             else:
                 print('ESCOLHA INVÁLIDA, ESCOLHA ENTRE 1 E 2.')
+
+def acessar_ficha():
+    linha()
+    print('Qual ficha deseja acessar?')
+    linha()
+    mostrar_personagens()
+    lista_personagens = db.mostra_personagensdb()
+
+    escolha_personagem = leiaint('Digite o ID da ficha que deseja usar: ')
+    while escolha_personagem not in lista_personagens:
+        print('Escolha inválida tente novamente')
+        escolha_personagem = leiaint('Digite o ID da ficha que deseja usar: ')
+
+    while True:
+        print('''1 - Adicionar Dados
+2 - Remover Dados
+3 - Sair e Rodar Dados''')
+        
+        escolha = leiaint()
+        while escolha not in range(1, 4):
+            print('escolha inválida, escolha um numero entre 1 e 3!')
+            escolha = leiaint()
+
+        if escolha == 1:
+            print('''1 - abilities
+2 - attributes
+3 - advantages''')
+            escolha_dados = leiaint()
+            while escolha_dados not in range(1,4):
+                escolha_dados = leiaint('Escolha um numero entre 1 e 3! ')
+            
+            if escolha_dados == 1:
+                tabela_abilities(escolha_personagem)
+        
