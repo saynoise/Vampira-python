@@ -1,3 +1,8 @@
+"""
+Módulo interface.py - Gerenciar a interface do terminal.
+
+Responsável por: menus, tabelas, entrada de dados do usuário e navegação da aplicação.
+"""
 import vampiradb.banco as db
 from rich import print
 from rich.panel import Panel
@@ -49,6 +54,14 @@ attributes_dict = {
     }
 
 def leiaint(txt=''):
+    """Lê um inteiro do usuário com validação.
+    
+    Args:
+        txt: Texto do prompt
+        
+    Returns:
+        int: Valor inteiro inserido
+    """
     while True:
         try:
             resultado = int(input(txt))
@@ -59,6 +72,14 @@ def leiaint(txt=''):
             print('[red]ERROR! USUARIO NÃO DIGITOU NADA![/]')
 
 def leiafloat(txt=''):
+    """Lê um número float do usuário com validação.
+    
+    Args:
+        txt: Texto do prompt
+        
+    Returns:
+        float: Valor float inserido
+    """
     while True:
         try:
             resultado = float(input(txt).replace(',','.'))
@@ -69,19 +90,38 @@ def leiafloat(txt=''):
             print('[red]ERROR! USUARIO NÃO DIGITOU NADA![/]')
 
 def linha():
+    """Imprime uma linha divisória."""
     print('-' * 42)
 
 def titulo(txt):
+    """Exibe um título centralizado com divisórias.
+    
+    Args:
+        txt: Texto do título
+    """
     linha()
     print(f'{txt}'.center(42))
     linha()
 
 def opcoes(opc):
+    """Exibe um menu com opções numeradas.
+    
+    Args:
+        opc: Lista de opções a exibir
+    """
     for id, item in enumerate(opc):
         print(f'{id+1} - {item}')
     linha()
 
 def lerstr(txt):
+    """Lê uma string do usuário.
+    
+    Args:
+        txt: Texto do prompt
+        
+    Returns:
+        str: String inserida
+    """
     while True:
         try:
             resultado = str(input(f'{txt}'))
@@ -90,6 +130,14 @@ def lerstr(txt):
             print('[red]ERRO! USUARIO NAO DIGITOU NADA![/]')
 
 def checar_id(txt):
+    """Valida e retorna um ID de personagem existente.
+    
+    Args:
+        txt: Texto do prompt
+        
+    Returns:
+        int: ID válido do personagem
+    """
     listaid = set(db.id_check())
     mostrar_personagens()
     while True:
@@ -100,6 +148,7 @@ def checar_id(txt):
             return escolha
 
 def cad_per():
+    """Cadastra um novo personagem no banco de dados."""
     personagem_dict = {}
     requerimentos = ['name', 'player', 'chronicle', 'nature', 
                      'demeanor', 'clan', 'generation']
@@ -111,6 +160,7 @@ def cad_per():
     criar_abilities(cad)
 
 def alt_advantages(escolhaid):
+    """Altera uma vantagem existente de um personagem."""
     while True:
         id_advantage = leiaint('Digite o ID da Vantagem que deseja alterar: ')
 
@@ -151,12 +201,21 @@ def alt_advantages(escolhaid):
             break
 
 def add_advantages(id):
+    """Adiciona uma nova vantagem a um personagem.
+    
+    Args:
+        id: ID do personagem
+    """
     nome_vantagem = lerstr('Digite o nome da vantagem: ')
     nivel_vantagem = leiaint(f'Digite o nivel de {nome_vantagem}: ')
     db.adicionar_advantages(nome_vantagem, nivel_vantagem, id)
 
 def attributes(id):
-
+    """Altera um atributo de um personagem.
+    
+    Args:
+        id: ID do personagem
+    """
     tabela_attributes(attributes_dict)
     while True:
         escolha = leiaint('Qual atributo deseja alterar: ')
@@ -168,7 +227,11 @@ def attributes(id):
     db.alterar_attributes(id, attributes_dict[escolha], valor)
 
 def criar_abilities(id):
-
+    """Cria os valores iniciais de habilidades para um novo personagem.
+    
+    Args:
+        id: ID do personagem recém-criado
+    """
     for habilidade in abilities_dict.values():
         while True:
             try:
@@ -182,6 +245,11 @@ def criar_abilities(id):
                 print('[red]VALOR INVÁLIDO[/]')
 
 def tabela_advantages(escolhaid):
+    """Exibe tabela com as vantagens de um personagem.
+    
+    Args:
+        escolhaid: ID do personagem
+    """
     dados = db.mostra_advantages(escolhaid)
     tb = Table(title='Lista Advantages')
     tb.add_column('ID')
@@ -192,6 +260,11 @@ def tabela_advantages(escolhaid):
     print(tb)
 
 def tabela_abilities(id):
+    """Exibe tabela com as habilidades de um personagem.
+    
+    Args:
+        id: ID do personagem
+    """
     dados = db.mostra_abilities(id)
     count = 0
     tb = Table(title='Lista Abilities')
@@ -204,6 +277,11 @@ def tabela_abilities(id):
     print(tb)
         
 def tabela_attributes(dados):
+    """Exibe tabela com atributos.
+    
+    Args:
+        dados: Dicionário com atributos e seus IDs
+    """
     tb = Table(title=f'Lista Atributos')
     tb.add_column('[yellow]ID[/]')
     tb.add_column('[yellow]Atributo[/]')
@@ -212,6 +290,11 @@ def tabela_attributes(dados):
     print(tb)    
 
 def tabela_personagens(dados):
+    """Exibe tabela com lista de personagens.
+    
+    Args:
+        dados: Lista de personagens do banco de dados
+    """
     tb = Table(title='LISTA DE PERSONAGENS')
     requerimentos = ['id','name', 'player', 'chronicle', 'nature', 
                      'demeanor', 'clan', 'generation']
@@ -222,15 +305,25 @@ def tabela_personagens(dados):
     print(tb)
     
 def mostrar_personagens():
+    """Exibe a lista de todos os personagens cadastrados."""
     linha()
     tabela_personagens(db.mostra_personagensdb())
     linha()
 
 def excluir_personagem():
+    """Exclui um personagem do banco de dados."""
     escolha = checar_id('Digite o ID do personagem que quer excluir: ')
     db.excluir_personagemdb(escolha)
 
 def sistema_escolha(txt):
+    """Exibe o menu principal e executa a opção escolhida.
+    
+    Args:
+        txt: Texto do prompt
+        
+    Returns:
+        bool: False se usuário escolher sair, None caso contrário
+    """
     lista_escolhas = {
         1: cad_per,
         2: mostrar_personagens,
@@ -249,6 +342,11 @@ def sistema_escolha(txt):
     lista_escolhas[escolha]()
 
 def header(escolhaid):
+    """Altera os dados principais (header) de um personagem.
+    
+    Args:
+        escolhaid: ID do personagem
+    """
     lista_escolhas = {
         1: 'name',
         2: 'player',
@@ -272,6 +370,11 @@ def header(escolhaid):
     db.alterardb(escolhaid, lista_escolhas[escolha], alt)
 
 def abilities(id):
+    """Altera as habilidades de um personagem.
+    
+    Args:
+        id: ID do personagem
+    """
     while True:
         tabela_abilities(id)
         id_abilities = leiaint('Digite o ID da habilidade que deseja alterar: ')
@@ -300,6 +403,11 @@ def abilities(id):
             break
 
 def del_advantage(escolhaid):
+    """Exclui uma vantagem de um personagem.
+    
+    Args:
+        escolhaid: ID do personagem
+    """
     tabela_advantages(escolhaid)
 
     ids_validos = [row[0] for row in db.mostra_advantages(escolhaid)]
@@ -313,6 +421,7 @@ def del_advantage(escolhaid):
     db.excluir_advantage(escolhaid, id_del)
 
 def alterar_personagem():
+    """Menu para alterar dados de um personagem existente."""
     escolhaid = checar_id('Digite o ID do personagem que deseja alterar: ')
     linha()
     print('Escolha oq vc quer alterar')
@@ -352,6 +461,13 @@ def alterar_personagem():
                 print('ESCOLHA INVÁLIDA, ESCOLHA ENTRE 1 E 2.')
 
 def acessar_ficha():
+    """Acessa a ficha de um personagem para consultar e preparar dados para rolagem.
+    
+    Permite ao usuário:
+    - Adicionar dados de abilities, attributes ou advantages para rolar
+    - Remover dados da seleção
+    - Finalizar a seleção
+    """
     linha()
     print('Qual ficha deseja acessar?')
     linha()
@@ -386,5 +502,40 @@ def acessar_ficha():
                 dados.append(db.mostra_abilities(escolha_personagem)[0][id_abilities - 1])
 
             if escolha_dados == 2:
-                tabela_attributes(escolha_personagem)
+                tabela_attributes(attributes_dict)
                 id_attributes = leiaint('Digite o ID do Atributo que deseja rolar: ')
+                while id_attributes not in attributes_dict:
+                    print(f'[red]Digite um id entre 1 e 9![/]')
+                    id_attributes = leiaint('Digite o ID do Atributo que deseja rolar: ')
+                dados.append(db.mostra_attributes(escolha_personagem)[0][id_attributes - 1])
+
+            if escolha_dados == 3:
+                tabela_advantages(escolha_personagem)
+                id_advantages = leiaint('Digite o ID da vantagem que deseja rolar: ')
+                ids_validos = [row[0] for row in db.mostra_advantages(escolha_personagem)]
+                while id_advantages not in ids_validos:
+                    print('[red]ID INVÁLIDA DIGITE UM ID QUE ESTEJA EM:[/]')
+                    tabela_advantages(escolha_personagem)
+                    id_advantages = leiaint('Digite o ID da vantagem que deseja rolar: ')
+                for advantage in db.mostra_advantages(escolha_personagem):
+                    if advantage[0] == id_advantages:
+                        dados.append(advantage[2])
+
+        if escolha == 2:
+            if dados:
+                print(f'Dados selecionados: {dados}')
+                escolha_remover = leiaint('Digite o índice do dado que deseja remover (começando do 0): ')
+                if 0 <= escolha_remover < len(dados):
+                    dados.pop(escolha_remover)
+                    print('[green]Dado removido com sucesso![/]')
+                else:
+                    print('[red]Índice inválido![/]')
+            else:
+                print('[red]Nenhum dado selecionado![/]')
+
+        if escolha == 3:
+            if dados:
+                print(f'[cyan]Dados para rolar: {dados}[/]')
+            else:
+                print('[yellow]Nenhum dado foi selecionado[/]')
+            break
