@@ -353,15 +353,9 @@ def acessar_ficha():
     linha()
     print('Qual ficha deseja acessar?')
     linha()
-    # mostrar_personagens()
-    # lista_personagens = db.mostra_personagensdb()
 
     escolha_personagem = checar_id('Digite o ID da ficha que deseja usar: ')
-
-    # escolha_personagem = leiaint('Digite o ID da ficha que deseja usar: ')
-    # while escolha_personagem not in lista_personagens:
-    #     print('Escolha inválida tente novamente')
-    #     escolha_personagem = leiaint('Digite o ID da ficha que deseja usar: ')
+    dados = []
 
     while True:
         print('''1 - Adicionar Dados
@@ -383,4 +377,9 @@ def acessar_ficha():
             
             if escolha_dados == 1:
                 tabela_abilities(escolha_personagem)
+                id_abilities = leiaint('Digite o ID da habilidade que deseja alterar: ')
+                while id_abilities not in abilities_dict:
+                    print(f'[red]Digite um id entre 1 e 30![/]')
+                    id_abilities = leiaint('Digite o ID da habilidade que deseja alterar: ')
+                dados.append(db.mostra_abilities(escolha_personagem)[0][id_abilities - 1])
         
