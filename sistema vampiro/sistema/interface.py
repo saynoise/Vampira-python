@@ -36,6 +36,18 @@ abilities_dict = {
     30: 'theology'
 }
 
+attributes_dict = {
+        1: 'strength',
+        2: 'dexterity',
+        3: 'stamina',
+        4: 'charisma',
+        5: 'manipulation',
+        6: 'appearance',
+        7: 'perception',
+        8: 'intelligence',
+        9: 'wits'
+    }
+
 def leiaint(txt=''):
     while True:
         try:
@@ -144,26 +156,16 @@ def add_advantages(id):
     db.adicionar_advantages(nome_vantagem, nivel_vantagem, id)
 
 def attributes(id):
-    escolhas_attributes = {
-        1: 'strength',
-        2: 'dexterity',
-        3: 'stamina',
-        4: 'charisma',
-        5: 'manipulation',
-        6: 'appearance',
-        7: 'perception',
-        8: 'intelligence',
-        9: 'wits'
-    }
-    tabela_attributes(escolhas_attributes)
+
+    tabela_attributes(attributes_dict)
     while True:
         escolha = leiaint('Qual atributo deseja alterar: ')
-        if escolha not in escolhas_attributes:
+        if escolha not in attributes_dict:
             print(f'[red]DIGITE UMA OPÇÃO VÁLIDA![/]')
         else:
             break
-    valor = leiaint(f'Qual o novo valor de {escolhas_attributes[escolha]}: ')
-    db.alterar_attributes(id, escolhas_attributes[escolha], valor)
+    valor = leiaint(f'Qual o novo valor de {attributes_dict[escolha]}: ')
+    db.alterar_attributes(id, attributes_dict[escolha], valor)
 
 def criar_abilities(id):
 
@@ -377,9 +379,12 @@ def acessar_ficha():
             
             if escolha_dados == 1:
                 tabela_abilities(escolha_personagem)
-                id_abilities = leiaint('Digite o ID da habilidade que deseja alterar: ')
+                id_abilities = leiaint('Digite o ID da habilidade que deseja rolar: ')
                 while id_abilities not in abilities_dict:
                     print(f'[red]Digite um id entre 1 e 30![/]')
-                    id_abilities = leiaint('Digite o ID da habilidade que deseja alterar: ')
+                    id_abilities = leiaint('Digite o ID da habilidade que deseja rolar: ')
                 dados.append(db.mostra_abilities(escolha_personagem)[0][id_abilities - 1])
-        
+
+            if escolha_dados == 2:
+                tabela_attributes(escolha_personagem)
+                id_attributes = leiaint('Digite o ID do Atributo que deseja rolar: ')
