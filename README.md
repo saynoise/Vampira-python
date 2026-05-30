@@ -10,7 +10,16 @@ Aplicação em Python para gerenciar fichas de personagens do RPG **Vampiro: A M
 - Armazenar e editar atributos físicos, sociais e mentais de cada personagem
 - Armazenar e editar habilidades (abilities) de cada personagem
 - Gerenciar vantagens (disciplines, backgrounds, virtues, etc.) — adicionar, alterar e excluir
-- Sistema de seleção de dados (abilities, attributes, advantages) para futura rolagem de dados
+- **Sistema de rolagem de dados (d10)** com seleção de abilities, attributes ou advantages
+- Cálculo de sucessos com regras Vampiro: A Máscara:
+  - Resultado > 5 = +1 sucesso
+  - Resultado 10 = +2 sucessos (crítico positivo)
+  - Resultado 1 = -1 sucesso (crítico negativo)
+- Visualização colorida dos resultados:
+  - 🔵 Azul para críticos (10)
+  - 🟢 Verde para sucessos (6-9)
+  - 🔴 Vermelho para críticos negativos (1)
+  - ⚪ Branco para falhas (2-5)
 - Visualizar personagens com suas fichas completas em tabelas formatadas
 - Atualizar e deletar personagens com confirmação
 - Banco de dados local com integridade referencial via chaves estrangeiras
@@ -74,7 +83,7 @@ python main.py
 
 Funcionalidades planejadas para versões futuras:
 
-- [ ] Rolagem de dados integrada ao app
+- [x] Rolagem de dados integrada ao app ✅
 - [ ] Bot para Discord que recebe os resultados das rolagens e os exibe no chat
 - [ ] Interface gráfica ou CLI interativa para facilitar o uso durante as sessões
 - [ ] Suporte a mais sistemas do Mundo das Trevas

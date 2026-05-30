@@ -7,6 +7,7 @@ import vampiradb.banco as db
 from rich import print
 from rich.panel import Panel
 from rich.table import Table
+import random
 
 abilities_dict = {
     1: 'alertness',
@@ -461,12 +462,16 @@ def alterar_personagem():
                 print('ESCOLHA INVÁLIDA, ESCOLHA ENTRE 1 E 2.')
 
 def acessar_ficha():
-    """Acessa a ficha de um personagem para consultar e preparar dados para rolagem.
+    """Acessa a ficha de um personagem para consultar e rodar dados.
     
     Permite ao usuário:
     - Adicionar dados de abilities, attributes ou advantages para rolar
     - Remover dados da seleção
-    - Finalizar a seleção
+    - Rodar dados (d10) e visualizar resultados com cores:
+      * Verde: resultado > 5
+      * Azul: resultado = 10 (sucesso crítico)
+      * Vermelho: resultado = 1 (fracasso crítico)
+      * Branco: resultado 2-5
     """
     linha()
     print('Qual ficha deseja acessar?')
@@ -535,7 +540,45 @@ def acessar_ficha():
 
         if escolha == 3:
             if dados:
-                print(f'[cyan]Dados para rolar: {dados}[/]')
+                linha()
+                total_dados = sum(dados)
+                print(f'[cyan]Total de dados para rolar: {total_dados}[/]')
+                linha()
+                
+                resultados = []
+                for _ in range(total_dados):
+                    resultado = random.randint(1, 10)
+                    resultados.append(resultado)
+                
+                print('[cyan]Resultados dos dados:[/]')
+                linha()
+                
+                resultado_formatado = []
+                for i, resultado in enumerate(resultados, 1):
+                    if resultado == 10:
+                        resultado_formatado.append(f'[blue]{resultado}[/]')
+                    elif resultado == 1:
+                        resultado_formatado.append(f'[red]{resultado}[/]')
+                    elif resultado > 5:
+                        resultado_formatado.append(f'[green]{resultado}[/]')
+                    else:
+                        resultado_formatado.append(f'[white]{resultado}[/]')
+                
+                print(' | '.join(resultado_formatado))
+                linha()
+                
+                # Calcula sucessos e críticos
+                sucessos = 0
+                for resultado in resultados:
+                    if resultado == 10:
+                        sucessos += 2  # Crítico positivo (+1 bônus)
+                    elif resultado == 1:
+                        sucessos -= 1  # Crítico negativo
+                    elif resultado > 5:
+                        sucessos += 1
+                
+                print(f'[cyan]Total de Sucessos: {sucessos}[/]')
+                linha()
             else:
                 print('[yellow]Nenhum dado foi selecionado[/]')
             break
