@@ -7,7 +7,7 @@ while True:
 
     sistema.titulo('VAMPIRA MASCARA PYTHON(ALPHA)')
     sistema.opcoes(['Cadastrar personagem', 'Lista de personagens',
-                    'Deletar personagem', 'Alterar personagem', 'Sair do programa'])
+                    'Deletar personagem', 'Alterar personagem', 'Acessar ficha', 'Sair do programa'])
 
     continuar = sistema.sistema_escolha('Escolha sua opção: ')
 

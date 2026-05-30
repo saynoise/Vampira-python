@@ -234,11 +234,12 @@ def sistema_escolha(txt):
         2: mostrar_personagens,
         3: excluir_personagem,
         4: alterar_personagem,
+        5: acessar_ficha
     }
     while True:
         escolha = leiaint(txt)
         if escolha not in lista_escolhas:
-            if escolha == 5:
+            if escolha == 6:
                 return False
             print('Digite uma opção válida')
         else:
@@ -352,13 +353,15 @@ def acessar_ficha():
     linha()
     print('Qual ficha deseja acessar?')
     linha()
-    mostrar_personagens()
-    lista_personagens = db.mostra_personagensdb()
+    # mostrar_personagens()
+    # lista_personagens = db.mostra_personagensdb()
 
-    escolha_personagem = leiaint('Digite o ID da ficha que deseja usar: ')
-    while escolha_personagem not in lista_personagens:
-        print('Escolha inválida tente novamente')
-        escolha_personagem = leiaint('Digite o ID da ficha que deseja usar: ')
+    escolha_personagem = checar_id('Digite o ID da ficha que deseja usar: ')
+
+    # escolha_personagem = leiaint('Digite o ID da ficha que deseja usar: ')
+    # while escolha_personagem not in lista_personagens:
+    #     print('Escolha inválida tente novamente')
+    #     escolha_personagem = leiaint('Digite o ID da ficha que deseja usar: ')
 
     while True:
         print('''1 - Adicionar Dados
