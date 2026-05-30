@@ -539,3 +539,4 @@ def acessar_ficha():
             else:
                 print('[yellow]Nenhum dado foi selecionado[/]')
             break
+        

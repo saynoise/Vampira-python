@@ -10,8 +10,11 @@ Aplicação em Python para gerenciar fichas de personagens do RPG **Vampiro: A M
 - Armazenar e editar atributos físicos, sociais e mentais de cada personagem
 - Armazenar e editar habilidades (abilities) de cada personagem
 - Gerenciar vantagens (disciplines, backgrounds, virtues, etc.) — adicionar, alterar e excluir
-- Atualizar e deletar personagens
+- Sistema de seleção de dados (abilities, attributes, advantages) para futura rolagem de dados
+- Visualizar personagens com suas fichas completas em tabelas formatadas
+- Atualizar e deletar personagens com confirmação
 - Banco de dados local com integridade referencial via chaves estrangeiras
+- Documentação completa com docstrings em todas as funções do sistema
 
 ---
 
